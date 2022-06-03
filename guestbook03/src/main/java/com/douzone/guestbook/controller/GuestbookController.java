@@ -18,14 +18,14 @@ public class GuestbookController {
 	@Autowired
 	private GuestbookRepository guestbookRepository;
 	
-	@RequestMapping(value="", method=RequestMethod.GET)
+	@RequestMapping(value="/", method=RequestMethod.GET)
 	public String index(Model model) {
 		List<GuestbookVo> list = guestbookRepository.findAll();
 		model.addAttribute("list", list);
 		return "/WEB-INF/views/index.jsp";
 	}
 
-	@RequestMapping(value="", method=RequestMethod.POST)
+	@RequestMapping(value="/add", method=RequestMethod.POST)
 	public String add(GuestbookVo vo) {
 		guestbookRepository.insert(vo);
 		return "redirect:/";
