@@ -8,7 +8,6 @@ public class BoardController {
 
 	@RequestMapping("/board")
 	public String write() {
-		return null;
 		
 	}
 }
