@@ -20,6 +20,7 @@ public class UserService {
 	
 	public void login(UserVo vo) {
 		userRepository.findByEmailAndPassword(vo);
+		
 	}
 	
 	public void write(GuestbookVo vo) {
