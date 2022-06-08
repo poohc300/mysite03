@@ -19,14 +19,15 @@ public class BoardService {
 		return boardRepository.findAll();
 	}
 	
-	public Boolean deleteBoard(Long no) {
+	public Boolean deleteBoard(Long no, String password) {
 		BoardVo vo = new BoardVo();
 		vo.setNo(no);
+		vo.setPassword(password);
 		
 		return boardRepository.delete(vo);
 	}
 	
-	public Boolean insertBoard(BoardVo vo) {
+	public Boolean addBoard(BoardVo vo) {
 		return boardRepository.insert(vo);
 	}
 }

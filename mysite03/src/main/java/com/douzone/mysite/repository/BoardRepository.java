@@ -32,7 +32,7 @@ public class BoardRepository {
 			conn = dataSource.getConnection();
 			
 			String sql = 
-					" select no, title, content, date_format(reg_date, '%Y/%m/%d %H:%i:%s') as reg_date"+
+					" select no, title, password, content, date_format(reg_date, '%Y/%m/%d %H:%i:%s') as reg_date, user_no"+
 					" from board "+
 					" order by reg_date desc";
 			rs = pstmt.executeQuery();
@@ -40,14 +40,18 @@ public class BoardRepository {
 			while(rs.next()) {
 				Long no = rs.getLong(1);
 				String title = rs.getString(2);
-				String content = rs.getString(3);
-				String regDate = rs.getString(4);
+				String password = rs.getString(3);
+				String content = rs.getString(4);
+				String regDate = rs.getString(5);
+				Long userNo = rs.getLong(6);
 				
 				BoardVo vo = new BoardVo();
 				vo.setNo(no);
 				vo.setTitle(title);
+				vo.setPassword(password);
 				vo.setContent(content);
 				vo.setRegDate(regDate);
+				vo.setUserNo(userNo);
 				
 				list.add(vo);
 			}
@@ -83,10 +87,12 @@ public class BoardRepository {
 			
 			String sql = 
 					" delete from board" +
-					" where no=?";
+					" where no=? and password=?";
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setLong(1, vo.getNo());
+			pstmt.setString(2, vo.getPassword());
+			
 		} catch(SQLException e) {
 			System.out.println("error:" + e);
 		} finally {
@@ -116,11 +122,13 @@ public class BoardRepository {
 			String sql =
 					" insert" +
 					"   into board" +
-					" values (null, ?, ?, now())";
+					" values (null, ?, ?, ?, now()), ?";
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setString(1, vo.getTitle());
-			pstmt.setString(2, vo.getContent());
+			pstmt.setString(2, vo.getPassword());
+			pstmt.setString(3, vo.getContent());
+			pstmt.setLong(5, vo.getUserNo());
 			
 			int count = pstmt.executeUpdate();
 			result = count == 1;
