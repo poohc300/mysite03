@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javax.sql.DataSource;
-
+import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -15,47 +15,15 @@ import com.douzone.mysite.vo.UserVo;
 
 @Repository
 public class UserRepository {
+	
+	@Autowired
+	private SqlSession sqlSession;
+	
 	@Autowired
 	private DataSource dataSource;
 	
 	public boolean insert(UserVo vo) {
-		boolean result = false;
-
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		try {
-			conn = dataSource.getConnection();
-			
-			String sql =
-					" insert" +
-					"   into user" +
-					" values (null, ?, ?, ?, ?, now())";
-			pstmt = conn.prepareStatement(sql);
-			
-			pstmt.setString(1, vo.getName());
-			pstmt.setString(2, vo.getEmail());
-			pstmt.setString(3, vo.getPassword());
-			pstmt.setString(4, vo.getGender());
-			
-			int count = pstmt.executeUpdate();
-			result = count == 1;
-			
-		} catch (SQLException e) {
-			System.out.println("error:" + e);
-		} finally {
-			try {
-				if(pstmt != null) {
-					pstmt.close();
-				}
-				if(conn != null) {
-					conn.close();
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}		
-		
-		return result;		
+		return sqlSession.insert("user.insert", vo) == 1;
 	}
 
 	public UserVo findByEmailAndPassword(UserVo vo) {
