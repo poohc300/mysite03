@@ -21,8 +21,8 @@ public class UserService {
 		return userRepository.findByEmailAndPassword(vo);
 	}
 
-	public List<UserVo> getUser(UserVo vo) {
-		return userRepository.findByNo(vo);
+	public List<UserVo> getUser(Long no) {
+		return userRepository.findByNo(no);
 	}
 
 	public void updateUser(UserVo vo) {

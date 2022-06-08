@@ -31,9 +31,9 @@ public class UserRepository {
 		return sqlSession.selectList("user.findByEmailAndPassword", vo);
 	}	
 
-	public List<UserVo> findByNo(UserVo vo) {
+	public List<UserVo> findByNo(Long no) {
 		
-		return sqlSession.selectList("user.findByNo", vo);
+		return sqlSession.selectList("user.findByNo", no);
 	}
 
 	public boolean update(UserVo vo) {
