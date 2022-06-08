@@ -7,7 +7,14 @@ public class BoardVo {
 	private String password;
 	private String content;
 	private String regDate;
+	private Long userNo;
 	
+	public Long getUserNo() {
+		return userNo;
+	}
+	public void setUserNo(Long userNo) {
+		this.userNo = userNo;
+	}
 	public Long getNo() {
 		return no;
 	}
