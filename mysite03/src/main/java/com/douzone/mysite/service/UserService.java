@@ -1,5 +1,7 @@
 package com.douzone.mysite.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,12 +17,12 @@ public class UserService {
 		userRepository.insert(vo);
 	}
 
-	public UserVo getUser(UserVo vo) {
+	public List<UserVo> getUser(UserVo vo) {
 		return userRepository.findByEmailAndPassword(vo);
 	}
 
-	public UserVo getUser(Long no) {
-		return userRepository.findByNo(no);
+	public List<UserVo> getUser(UserVo vo) {
+		return userRepository.findByNo(vo);
 	}
 
 	public void updateUser(UserVo vo) {

@@ -20,11 +20,7 @@ public class BoardService {
 	}
 	
 	public Boolean deleteBoard(Long no, String password) {
-		BoardVo vo = new BoardVo();
-		vo.setNo(no);
-		vo.setPassword(password);
-		
-		return boardRepository.delete(vo);
+		return boardRepository.delete(no, password);
 	}
 	
 	public Boolean addBoard(BoardVo vo) {

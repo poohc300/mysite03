@@ -5,6 +5,9 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.sql.DataSource;
 import org.apache.ibatis.session.SqlSession;
@@ -18,163 +21,23 @@ public class UserRepository {
 	
 	@Autowired
 	private SqlSession sqlSession;
-	
-	@Autowired
-	private DataSource dataSource;
-	
+		
 	public boolean insert(UserVo vo) {
 		return sqlSession.insert("user.insert", vo) == 1;
 	}
 
-	public UserVo findByEmailAndPassword(UserVo vo) {
-		UserVo result = null;
-		
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-				
-		try {
-			conn = dataSource.getConnection();
-			
-			String sql =
-				"select no, name" +
-				"  from user" +
-				" where email=?" +
-				"   and password=?";
-			pstmt = conn.prepareStatement(sql);
-			
-			pstmt.setString(1, vo.getEmail());
-			pstmt.setString(2, vo.getPassword());
-			
-			rs = pstmt.executeQuery();
-			if(rs.next()) {
-				Long no = rs.getLong(1);
-				String name = rs.getString(2);
-				
-				result = new UserVo();
-				result.setNo(no);
-				result.setName(name);
-			}
-		} catch (SQLException e) {
-			System.out.println("error:" + e);
-		} finally {
-			try {
-				if(rs != null) {
-					rs.close();
-				}
-				if(pstmt != null) {
-					pstmt.close();
-				}
-				if(conn != null) {
-					conn.close();
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		
-		return result;
+	public List<UserVo> findByEmailAndPassword(UserVo vo) {
+	
+		return sqlSession.selectList("user.findByEmailAndPassword", vo);
 	}	
 
-	public UserVo findByNo(Long userNo) {
-		UserVo result = null;
+	public List<UserVo> findByNo(UserVo vo) {
 		
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-				
-		try {
-			conn = dataSource.getConnection();
-			
-			String sql =
-				"select no, name, email, gender" +
-				"  from user" +
-				" where no=?";
-			pstmt = conn.prepareStatement(sql);
-			
-			pstmt.setLong(1, userNo);
-			
-			rs = pstmt.executeQuery();
-			if(rs.next()) {
-				Long no = rs.getLong(1);
-				String name = rs.getString(2);
-				String email = rs.getString(3);
-				String gender = rs.getString(4);
-				
-				result = new UserVo();
-				result.setNo(no);
-				result.setName(name);
-				result.setEmail(email);
-				result.setGender(gender);
-			}
-		} catch (SQLException e) {
-			System.out.println("error:" + e);
-		} finally {
-			try {
-				if(rs != null) {
-					rs.close();
-				}
-				if(pstmt != null) {
-					pstmt.close();
-				}
-				if(conn != null) {
-					conn.close();
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		
-		return result;
+		return sqlSession.selectList("user.findByNo", vo);
 	}
 
 	public boolean update(UserVo vo) {
-		boolean result = false;
-
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		try {
-			conn = dataSource.getConnection();
-			
-			if("".equals(vo.getPassword())) {
-				String sql =
-						" update user " + 
-						"    set name=?, gender=?" + 
-						"  where no=?";
-				pstmt = conn.prepareStatement(sql);
-				
-				pstmt.setString(1, vo.getName());
-				pstmt.setString(2, vo.getGender());
-				pstmt.setLong(3, vo.getNo());
-			} else {
-				String sql =
-						" update user " + 
-						"    set name=?, gender=?, password=?" + 
-						"  where no=?";
-				pstmt = conn.prepareStatement(sql);
-				
-				pstmt.setString(1, vo.getName());
-				pstmt.setString(2, vo.getGender());
-				pstmt.setString(3, vo.getPassword());
-				pstmt.setLong(4, vo.getNo());
-			}
-			
-			int count = pstmt.executeUpdate();
-			result = count == 1;			
-		} catch (SQLException e) {
-			System.out.println("error:" + e);
-		} finally {
-			try {
-				if(pstmt != null) {
-					pstmt.close();
-				}
-				if(conn != null) {
-					conn.close();
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}		
+		boolean result = sqlSession.update("user.update", vo) == 1;
 		
 		return result;
 	}
