@@ -25,7 +25,7 @@
 		<![CDATA[
 		insert
 		  into guestbook
-		values (null, #{name }, #{password }, #{message }, now())
+		values (null, #{name }, #{password }, now(), #{message })
 		]]>
 		<selectKey keyProperty="no" resultType="long" order="AFTER">
 			<![CDATA[
