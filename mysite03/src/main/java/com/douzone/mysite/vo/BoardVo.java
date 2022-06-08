@@ -4,8 +4,10 @@ public class BoardVo {
 
 	private Long no;
 	private String title;
+	private String password;
 	private String content;
 	private String regDate;
+	
 	public Long getNo() {
 		return no;
 	}
@@ -30,6 +32,11 @@ public class BoardVo {
 	public void setRegDate(String regDate) {
 		this.regDate = regDate;
 	}
-	
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
 	
 }
