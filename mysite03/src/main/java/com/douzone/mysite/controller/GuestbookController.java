@@ -1,45 +1,52 @@
 package com.douzone.mysite.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.douzone.mysite.service.GuestbookService;
-import com.douzone.mysite.service.UserService;
+import com.douzone.mysite.vo.GuestbookVo;
 
 @Controller
 @RequestMapping("/guestbook")
 public class GuestbookController {
-	
 	@Autowired
-	private UserService userService;
 	private GuestbookService guestbookService;
 	
-	@RequestMapping(value="/index", method=RequestMethod.GET)
-	public String get() {
+	@RequestMapping("")
+	public String index(Model model) {
+		List<GuestbookVo> list = guestbookService.getMessageList();
+		model.addAttribute("list", list);
 		return "guestbook/index";
 	}
-	
-	@RequestMapping(value="/add", method=RequestMethod.POST)
-	public String insert() {
-		return "guestbook/add";
-		
-	}
-	
-	@PostMapping(value="/delete/{no}")
-	@ResponseBody
-	public String deleteByNo(
-			@PathVariable("no") Long no,
-			@RequestParam(value="pasword",
-			required=true,
-			defaultValue="") String password
-			) {
-		
+
+	@RequestMapping(value="/delete/{no}", method=RequestMethod.GET)
+	public String delete(@PathVariable("no") Long no, Model model) {
+		model.addAttribute("no", no);
 		return "guestbook/delete";
 	}
+	
+	@RequestMapping(value="/delete/{no}", method=RequestMethod.POST)
+	public String delete(@PathVariable("no") Long no, @RequestParam("password") String password) {
+		guestbookService.deleteMessage(no, password);
+		return "redirect:/guestbook";
+	}
+	
+	@RequestMapping("/add")
+	public String delete(GuestbookVo vo) {
+		guestbookService.addMessage(vo);
+		return "redirect:/guestbook";
+	}
+
+//	@ExceptionHandler(Exception.class)
+//	public String handlerException() {
+//		return "error/exception";
+//	}
 }
