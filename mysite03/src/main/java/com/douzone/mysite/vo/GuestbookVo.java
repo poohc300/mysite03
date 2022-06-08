@@ -7,14 +7,6 @@ public class GuestbookVo {
 	private String regDate;
 	private String message;
 	
-	public Long getUserNo() {
-		return userNo;
-	}
-	public void setUserNo(Long userNo) {
-		this.userNo = userNo;
-	}
-	private Long userNo;
-	
 	public Long getNo() {
 		return no;
 	}
