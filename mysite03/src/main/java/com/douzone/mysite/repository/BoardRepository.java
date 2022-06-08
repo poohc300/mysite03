@@ -35,6 +35,8 @@ public class BoardRepository {
 					" select no, title, password, content, date_format(reg_date, '%Y/%m/%d %H:%i:%s') as reg_date, user_no"+
 					" from board "+
 					" order by reg_date desc";
+			pstmt = conn.prepareStatement(sql);
+
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
