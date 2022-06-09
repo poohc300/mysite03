@@ -1,15 +1,5 @@
 package com.douzone.mysite.repository;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.sql.DataSource;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -26,14 +16,14 @@ public class UserRepository {
 		return sqlSession.insert("user.insert", vo) == 1;
 	}
 
-	public List<UserVo> findByEmailAndPassword(UserVo vo) {
+	public UserVo findByEmailAndPassword(UserVo vo) {
 	
-		return sqlSession.selectList("user.findByEmailAndPassword", vo);
+		return sqlSession.selectOne("user.findByEmailAndPassword", vo);
 	}	
 
-	public List<UserVo> findByNo(Long no) {
+	public UserVo findByNo(Long no) {
 		
-		return sqlSession.selectList("user.findByNo", no);
+		return sqlSession.selectOne("user.findByNo", no);
 	}
 
 	public boolean update(UserVo vo) {

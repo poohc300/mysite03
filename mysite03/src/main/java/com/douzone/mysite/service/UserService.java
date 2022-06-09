@@ -17,11 +17,11 @@ public class UserService {
 		userRepository.insert(vo);
 	}
 
-	public List<UserVo> getUser(UserVo vo) {
+	public UserVo getUser(UserVo vo) {
 		return userRepository.findByEmailAndPassword(vo);
 	}
 
-	public List<UserVo> getUser(Long no) {
+	public UserVo getUser(Long no) {
 		return userRepository.findByNo(no);
 	}
 
