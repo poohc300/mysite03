@@ -113,7 +113,7 @@
 			    <artifactId>tomcat-maven-plugin</artifactId>
 			    <version>1.1</version>
 			    <configuration>
-			    	<url>http://192.168.56.101:8080/manager/text</url>
+			    	<url>http://112.162.205.179:8079/manager/text</url>
 			    	<path>/mysite03</path>
 			    	<username>admin</username>
 			    	<password>manager</password>
