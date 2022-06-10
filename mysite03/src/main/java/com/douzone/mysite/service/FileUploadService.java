@@ -13,7 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 public class FileUploadService {
 
-	private static String RESTORE_PATH = "/mysite-uploads";
+	private static String SAVE_PATH = "/mysite-uploads";
 	private static String URL_BASE = "/assets/gallery";
 	
 	public String restore(MultipartFile multipartFile) {
@@ -23,28 +23,26 @@ public class FileUploadService {
 				return url;
 			}
 			
-			File restoreDirectory = new File(RESTORE_PATH);
-			if(!restoreDirectory.exists()) {
-				restoreDirectory.mkdirs();
+			File uploadDirectory = new File(SAVE_PATH);
+			if(!uploadDirectory.exists()) {
+				uploadDirectory.mkdirs();
 			}
 			
 			String originFileName = multipartFile.getOriginalFilename();
 			String extName = originFileName.substring(originFileName.lastIndexOf('.')+1);
-			String restoreFilename = generateSaveFilename(extName);
+			String saveFilename = generateSaveFilename(extName);
 			Long fileSize = multipartFile.getSize();
 			
-			String storePath = StringUtils.cleanPath(restoreDirectory.getAbsolutePath() +"/"+  restoreFilename);
 			System.out.println("################" + originFileName);
-			System.out.println("################" + restoreFilename);
+			System.out.println("################" + saveFilename);
 			System.out.println("################" + fileSize);
-			System.out.println("################" + storePath);
 			
 			byte[] data = multipartFile.getBytes();
-			OutputStream os = new FileOutputStream(storePath);	
+			OutputStream os = new FileOutputStream(SAVE_PATH +"/"+  saveFilename);	
 			os.write(data);
 			os.close();
 			
-			url = StringUtils.cleanPath(URL_BASE + "/" + restoreFilename);
+			url = StringUtils.cleanPath(URL_BASE + "/" + saveFilename);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}

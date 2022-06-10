@@ -49,24 +49,26 @@ $(function(){
 		<div id="content">
 			<div id="gallery">
 				<div>
-					<h1>갤러리</h1>
+					<h1 style="background: url('${pageContext.request.contextPath }/assets/images/gallery.png') no-repeat 0 0 / 35px">갤러리</h1>
 					<a href="" id="upload-image">이미지 올리기</a>
 				</div>
-				<ul>
-						<li>
-							<a	href="${pageContext.request.contextPath }/assets/gallery-examples/im1.jpg"
-								data-lightbox="gallery"
-								class="image"
-								style="background-image:url('${pageContext.request.contextPath }/assets/gallery-examples/im1.jpg')">&nbsp;</a>
-								
-							<a	href="${pageContext.request.contextPath }/gallery/delete/1"
-								class="del-button"
-								title="삭제">삭제</a>
-						</li>
-						
-						
-																																					
-				</ul>	
+					<ul>
+						<c:forEach items="${list }" var="vo" varStatus="status">
+					
+							<li>
+								<a	href="${pageContext.request.contextPath }${vo.url }"
+									data-lightbox="gallery"
+									class="image"
+									style="background-image:url('${pageContext.request.contextPath }${vo.url}')">&nbsp;</a>
+									
+								<a	style="background: url('${pageContext.request.contextPath }/assets/images/delete-image.png') no-repeat 0 0 / 18px"
+									href="${pageContext.request.contextPath }/gallery/delete/${vo.no }"
+									class="del-button"
+									title="삭제">삭제</a>
+							</li>		
+						</c:forEach>
+																																							
+					</ul>	
 			</div>
 
 			<div id="dialog-upload-form" title="이미지 업로드" style="display:none">
