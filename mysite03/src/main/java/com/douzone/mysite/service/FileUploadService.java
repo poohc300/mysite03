@@ -7,6 +7,7 @@ import java.io.OutputStream;
 import java.util.Calendar;
 
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
@@ -32,16 +33,18 @@ public class FileUploadService {
 			String restoreFilename = generateSaveFilename(extName);
 			Long fileSize = multipartFile.getSize();
 			
+			String storePath = StringUtils.cleanPath(restoreDirectory.getAbsolutePath() +"/"+  restoreFilename);
 			System.out.println("################" + originFileName);
 			System.out.println("################" + restoreFilename);
 			System.out.println("################" + fileSize);
-		
+			System.out.println("################" + storePath);
+			
 			byte[] data = multipartFile.getBytes();
-			OutputStream os = new FileOutputStream(RESTORE_PATH + "/" + restoreFilename);	
+			OutputStream os = new FileOutputStream(storePath);	
 			os.write(data);
 			os.close();
 			
-			url = URL_BASE + "/" + restoreFilename;
+			url = StringUtils.cleanPath(URL_BASE + "/" + restoreFilename);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
