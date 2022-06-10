@@ -28,10 +28,12 @@ public class GalleryController {
 	}
 	
 	@PostMapping("upload")
-	public String fileUpload(@RequestParam("file") MultipartFile multipartFile) {
-		System.out.println(multipartFile.getName());
+	public String fileUpload(@RequestParam("file") MultipartFile multipartFile, GalleryVo vo) {
 		String url = fileUploadService.restore(multipartFile);
-		
+		vo.setUrl(url);
+		System.out.println(vo);
+
+		galleryService.saveImage(vo);
 		return "redirect:/gallery";
 	}
 	
