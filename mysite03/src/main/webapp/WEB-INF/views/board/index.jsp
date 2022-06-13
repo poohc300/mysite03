@@ -26,18 +26,20 @@
 						<th>조회수</th>
 						<th>작성일</th>
 						<th>&nbsp;</th>
-					</tr>				
+					</tr>
+					<c:forEach items="${map.list }"	var="vo" varStatus="status">					
 					<tr>
 						<td>1</td>
 						<td  style="text-align:left; padding-left:20px">
 							<img src='${pageContext.servletContext.contextPath }/assets/images/reply.png' />
 							<a href="">첫 번째 글입니다.</a>
 						</td>
-						<td>안대혁</td>
+						<td>${vo.userName}</td>
 						<td>3</td>
 						<td>2015-09-25 07:24:32</td>
 						<td><a href="" class="del">삭제</a></td>
 					</tr>
+					</c:forEach>
 				</table>
 				
 				<!-- pager 추가 -->
@@ -55,7 +57,9 @@
 				<!-- pager 추가 -->
 				
 				<div class="bottom">
-					<a href="" id="new-book">글쓰기</a>
+					<c:if test="${not empty authUser }">
+						<a href="${pageContext.request.contextPath }/board/write?p=${map.currentPage }&kwd=${map.keyword }" id="new-book">글쓰기</a>
+					</c:if>
 				</div>				
 			</div>
 		</div>
